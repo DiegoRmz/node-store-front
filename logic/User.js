@@ -95,7 +95,7 @@ router.post('/update', formUpload.fields(
         }
 
         //Here it tries to post the data
-        axios.post('http://localhost:3030User/update',{sid:"BASTION",payload:payload})
+        axios.post('http://localhost:3030/User/update',{sid:"BASTION",payload:payload})
         .then(success=>{
             res.send(success.data);
         }).catch(err=>{

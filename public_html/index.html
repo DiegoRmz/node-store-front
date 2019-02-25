@@ -30,11 +30,20 @@
                 type: 'POST', // For jQuery < 1.9
                 success: function(data) {
                     console.log(data);
-                    if(data[0].role.toUpperCase() == "ADMIN"){
-                        window.location.href = "admin.html";
-                    }else if(data[0].role.toUpperCase() == "USER"){
-                        window.location.href = "user.html";
+
+                    if(data.length > 0){
+                        window.email = $("#email")[0].value;
+                        console.log(window.email);
+                        
+                        if(data[0].role.toUpperCase() == "ADMIN"){
+                            window.location.href = "admin.html?email="+window.email;
+                        }else if(data[0].role.toUpperCase() == "USER"){
+                            window.location.href = "user.html?email="+window.email;
+                        }
+                    }else{
+                        alert("No se encontró su usuario con el nombre y la contraseña dados");
                     }
+
                 },error: function(err){
                     console.log(err);
                 }
@@ -42,7 +51,7 @@
         }
     </script>
     <div class="container" style="align-content: center;">
-        <form name="logUser" action="/users/login" enctype="multipart/form-data" method="POST">
+        <form name="logUser" enctype="multipart/form-data" method="POST">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu mail">
