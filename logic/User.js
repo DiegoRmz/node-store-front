@@ -1,5 +1,5 @@
 const fs = require('fs')
-const router = require('express').Router
+const router = require('express').Router();
 
 const multer = require('multer')
 const axios = require('axios')
@@ -15,11 +15,15 @@ router.post('/login', formUpload.fields(
     (req,res,next)=>{
         let query = {email:req.body.email,password:req.body.password};
 
-        axios.post('http://localhost:3000/User/get-one',{sid:"BASTION",query:query})
+        axios.post('http://localhost:3030/User/get-one',{sid:"BASTION",query:query})
         .then(success=>{
-            res.send(success);
+            //Create cookies            
+            res.cookie('usermail',req.body.email);
+            res.cookie('role',req.body);
+            res.send(success.data);
         }).catch(err=>{
-            res.status(500).send(err);
+            console.log(err);
+            res.status(500).send(err.data);
         })
     }
 )
@@ -53,17 +57,17 @@ router.post('/create', formUpload.fields(
         }
 
         //Here it tries to post the data
-        axios.post('http://localhost:3000/User/new',{sid:"BASTION",payload:payload})
+        axios.post('http://localhost:3030/User/new',{sid:"BASTION",payload:payload})
         .then(success=>{
-            res.send(success);
+            res.send(success.data);
         }).catch(err=>{
-            res.status(500).send(err);
+            res.status(500).send(err.data);
         })
     }
 )
 
 //Update a user
-router.post('/create', formUpload.fields(
+router.post('/update', formUpload.fields(
     [
         {name:"name",maxCount:1},
         {name:"photo",maxCount:1},
@@ -91,21 +95,23 @@ router.post('/create', formUpload.fields(
         }
 
         //Here it tries to post the data
-        axios.post('http://localhost:3000User/update',{sid:"BASTION",payload:payload})
+        axios.post('http://localhost:3030User/update',{sid:"BASTION",payload:payload})
         .then(success=>{
-            res.send(success);
+            res.send(success.data);
         }).catch(err=>{
-            res.status(500).send(err);
+            res.status(500).send(err.data);
         })
     }
 )
 
 //Get many users
 router.get('/users',(req,res)=>{
-    axios.post('http://localhost:3000/User/get-many',{sid:"BASTION"})
+    axios.post('http://localhost:3030/User/get-many',{sid:"BASTION"})
     .then(success=>{
-        res.json(success);
+        res.json(success.data);
     }).catch(err=>{
-        res.status(500).send(err);
+        res.status(500).send(err.data);
     })
 })
+
+module.exports = router;

@@ -1,5 +1,5 @@
 const fs = require('fs')
-const router = require('express').Router
+const router = require('express').Router();
 
 const multer = require('multer')
 const axios = require('axios')
@@ -36,11 +36,11 @@ router.post('/create',
         }
 
         //Here it tries to post the data
-        axios.post('http://localhost:3000/product/new',{sid:"BASTION",payload:payload})
+        axios.post('http://localhost:3030/product/new',{sid:"BASTION",payload:payload})
         .then(success=>{
-            res.send(success);
+            res.send(success.data);
         }).catch(err=>{
-            res.status(500).send(err);
+            res.status(500).send(err.data);
         })
     }
 )
@@ -74,21 +74,21 @@ router.post('/update-or-alter-inv',
         }
 
         //Here it tries to post the data
-        axios.post('http://localhost:3000/product/update',{sid:"BASTION",payload:payload, query:{barcode: payload.barcode}})
+        axios.post('http://localhost:3030/product/update',{sid:"BASTION",payload:payload, query:{barcode: payload.barcode}})
         .then(success=>{
-            res.send(success);
+            res.send(success.data);
         }).catch(err=>{
-            res.status(500).send(err);
+            res.status(500).send(err.data);
         })
     }
 )
 
 router.get('/products',(req,res)=>{
-    axios.post('http://localhost:3000/product/get-many',{sid:"BASTION"})
+    axios.post('http://localhost:3030/product/get-many',{sid:"BASTION"})
     .then(success=>{
-        res.json(success);
+        res.json(success.data);
     }).catch(err=>{
-        res.status(500).send(err);
+        res.status(500).send(err.data);
     })
 })
 
