@@ -15,7 +15,7 @@ app.use( cookieParser() );
 app.use( express.static('./public_html') );
 
 app.use('/users' , usrouter);
-app.use('/products', prodrouter);
+app.use('/product', prodrouter);
 
 app.use('/*' , (req,res,next)=>{
     console.log(req.cookies); 

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ameison </title>
+    <!--Bootstrap css-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- JQuery  -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+<body style="background: rgb(216,224,222);">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="admin.html" target="_blank">AMEISON</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active   "><a href="admin.html">Agregar Productos</a></li>
+                <li class=""><a href="addUser.html">Usuarios</a></li>
+                <li class=""><a href="transactions.html">Transacciones</a></li>
+                <li class=""><a href="logout2.html">Salir</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="align-content: center;">
+        <form name="newProd" action="/users/login" enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+                <label for="barcode">Codigo:</label>
+                <input type="text" class="form-control" id="barcode" name="barcode" placeholder="1235123">
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre Producto:</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <label for="description">Descripcion:</label>
+                <input type="text" class="form-control" id="description" name="description" placeholder="Descripcion">
+            </div>
+            <div class="form-group">
+                <label for="quantity">Cantidades:</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="123123">
+            </div>
+            <div class="form-group">
+                <label for="type">Tipo:</label>
+                <input type="text" class="form-control" id="type" name="type" placeholder="Tipo">
+            </div>
+            <div class="form-group">
+                <label for="photo">Foto:</label>
+                <input type="file" name="photo" id="photo" />
+            </div>
+    
+            <div class="container col-2">
+                <!--<button class="btn btn-default btn-danger pull-left"><a href="login.html" style="color:#fff;">Cancelar</a></button>-->
+    
+                <button type="button" class="btn btn-default btn-success pull-right" onclick="addProd();">Ingresar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function addProd() {
+            var data = new FormData();
+    
+            data.append("barcode", $("#barcode")[0].value);
+            data.append("name", $("#name")[0].value);
+            data.append("description", $("#description")[0].value);
+            data.append("quantity", $("#quantity")[0].value);
+            data.append("type", $("#type")[0].value);
+            data.append("photo", $("#photo")[0].files[0]);
+    
+            $.ajax({
+                url: "/product/create/",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST', // For jQuery < 1.9
+                success: function(data) {
+                    console.log(data);
+                    alert("Se guardó el producto exitosamente");
+                },error:function (err) {
+                    console.log(err);
+                    alert("Hubo un error al guardar el producto");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
